@@ -1,0 +1,41 @@
+main nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3125rem 1.25rem;
+}
+
+main nav img {
+  max-width: 100%;
+  width: 12.5rem;
+}
+
+main nav a {
+  color: #2c3e50;
+  display: flex;
+  margin-right: 0.5rem;
+}
+
+main nav a p {
+  font-weight: bold;
+}
+
+main nav a i {
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+main nav .connected {
+  display: flex;
+  gap: 1rem;
+  margin-right: 0.5rem;
+}
+
+main nav .connected p {
+  font-weight: bold;
+}
+
+main nav .connected i {
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
