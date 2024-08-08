@@ -8,12 +8,12 @@ import Login from './pages/Login.jsx';
 import Profile from './pages/Profile.jsx';
 import Error from './pages/Error.jsx';
 import './main.css';
-import { RootState } from './app/store'; 
+import { RootState } from './redux/store.js'; 
 
 
 
 export default function App () {
-    const isConnected = useSelector((state: RootState) => state.auth.isConnected);
+    const isConnected = useSelector((state:RootState) => state.auth.isConnected);
 
     return (
         <div>

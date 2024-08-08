@@ -27,7 +27,7 @@ function User () {
             setErrorMessage("");
         }
         try {
-            const response = await fetch('http://localhost:5173/api/v1/user/profile', {
+            const response = await fetch('http://localhost:3001/api/v1/user/profile', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
