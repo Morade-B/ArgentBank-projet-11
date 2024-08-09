@@ -6,7 +6,7 @@ const initialState = {
     userData: {}
 }
 /*Reducer pour gérer les actions liées aux données utilisateur*/
-export const userReducer = (state = initialState, action ) => {
+export const userReducer = (state = initialState, action: { type: any; payload: any } ) => {
     switch (action.type) {
         case GET_USERPROFILE:
             return {

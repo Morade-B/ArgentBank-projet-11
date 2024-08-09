@@ -10,7 +10,7 @@ const initialState = {
     error: null,
 }
 /*Reducer pour gérer les actions liées à l'authentification*/
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: { type: any; payload: any; }) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
             return {
