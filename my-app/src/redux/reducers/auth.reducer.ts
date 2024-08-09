@@ -1,5 +1,7 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/type.actions";
 
+
+
 /* État initial pour le reducer d'authentification*/
 const initialState = {
     status: "VOID",

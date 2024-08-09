@@ -1,6 +1,8 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
+
 import { authReducer } from './reducers/auth.reducer';
 import { userReducer } from './reducers/user.reducer';
+
 
 /*Combine les différents reducers pour créer un reducer racine*/
 const rootReducer = combineReducers({
