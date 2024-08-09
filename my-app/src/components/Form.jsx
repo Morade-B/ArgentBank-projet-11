@@ -6,20 +6,20 @@ import { isValidEmail, isValidPassword } from '../utils/regex.jsx';
 import './Form.css';
 
 function Form () {
-    /* Allows you to retrieve the data entered by the user in the form */
+    /* Permet de récupérer les données saisies par l'utilisateur dans le formulaire */
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    /* Indicates an error message if data is invalid */
+    /* Indique un message d'erreur si les données ne sont pas valides */
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    /* Asynchronous form function */
+/* Fonction qui est appelée lors de la soumission du formulaire */
     const handleSubmit = async (event) => {
         event.preventDefault();
-        /* Handle error message */
+        /* Validation de l'email et du mot de passe */
         if (!isValidEmail(email)) {
             setErrorMessage("Invalid email adress");
             return;
@@ -29,6 +29,7 @@ function Form () {
             return;
         }
         try {
+             /* Envoie une requête POST au serveur pour tenter de se connecter */
             const response = await fetch("http://localhost:3001/api/v1/user/login", {
                 method: "POST",
                 headers: {
@@ -38,10 +39,7 @@ function Form () {
             });
             if (response.ok) {
                 const data = await response.json();
-                /* 
-                    Checking that the query response is indeed retrieved
-                    console.log(data) 
-                */
+             
                 const token = data.body.token;
                 dispatch(loginSuccess(token));
                 sessionStorage.setItem("token", token);
@@ -64,9 +62,9 @@ function Form () {
             <h2>Sign In</h2>
             <form onSubmit={handleSubmit}>
                 <div className='input-wrapper'>
-                    <label htmlFor='username'>Username</label>
+                    <label htmlFor='email'>Email</label>
                     <input 
-                        id='username' 
+                        id='email' 
                         type='text'
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}

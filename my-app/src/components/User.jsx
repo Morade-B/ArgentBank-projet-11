@@ -5,19 +5,19 @@ import { isValidName } from "../utils/regex.jsx";
 import './User.css';
 
 function User () {
-    /* Updates user data on profile page from state redux */
+    /*Récupère le token et les données de l'utilisateur connecté à partir du state Redux*/
     const token = useSelector((state) => state.auth.token);
     const userData = useSelector((state) => state.user.userData);
-    /* Manages the appearance of the username modification form */
+  
     const [display, setDisplay] = useState(true);
-    /* Get username */
+   
     const [userName, setUserName] = useState('');
-    /* Handle error message */
+   
     const [errorMessage, setErrorMessage] = useState('');
 
     const dispatch = useDispatch();
 
-    /* Asynchronous username update function */
+    /*Fonction asynchrone pour gérer la soumission du formulaire de modification du nom d'utilisateur*/
     const handleSubmitUsername = async (event) => {
         event.preventDefault();
         if (!isValidName(userName)) {
@@ -27,6 +27,7 @@ function User () {
             setErrorMessage("");
         }
         try {
+            /*Requête PUT pour mettre à jour le profil de l'utilisateur avec le nouveau nom d'utilisateur*/
             const response = await fetch('http://localhost:3001/api/v1/user/profile', {
                 method: 'PUT',
                 headers: {
@@ -38,10 +39,7 @@ function User () {
             if (response.ok) {
                 const data = await response.json();
                 const username = data.body.userName;
-                /* 
-                    Checking that the query response is indeed retrieved
-                    console.log(data) 
-                */
+            
                 dispatch(updateUsername(username));
                 setDisplay(!display);
             } else {
@@ -61,6 +59,7 @@ function User () {
                         <br />
                         {userData.firstname} {userData.lastname} !
                     </h2>
+                    {/* Bouton pour afficher le formulaire de modification du nom d'utilisateur */}
                     <button className="edit-button" onClick={() => setDisplay(!display)}>Edit Name</button>
                 </div>
                 :
@@ -82,7 +81,7 @@ function User () {
                                 type="text"
                                 id="firstname" 
                                 defaultValue={userData.firstname}
-                                disabled={true}
+                                disabled={true} /*Champ désactivé pour empêcher la modification*/
                             />
                         </div>
                         <div className="edit-input">
@@ -95,9 +94,12 @@ function User () {
                             />
                         </div>
                         <div className="buttons">
+                             {/* Bouton pour soumettre la mise à jour du nom d'utilisateur */}
                             <button className="edit-username-button" onClick={handleSubmitUsername}>Save</button>
+                            {/* Bouton pour annuler la modification et revenir à l'affichage initial */}
                             <button className="edit-username-button" onClick={() => setDisplay(!display)}>Cancel</button>
                         </div>
+                          {/* Affichage du message d'erreur en cas de saisie invalide */}
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                     </form>
                 </div>

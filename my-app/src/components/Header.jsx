@@ -6,15 +6,13 @@ import { logout } from '../redux/actions/auth.actions';
 import './Header.css';
 
 function Header () {
-    /* Updates user data on header component from state redux */
+    /* Récupère l'état d'authentification (token) et le prénom de l'utilisateur à partir du store Redux */
     const isConnected = useSelector((state) => state.auth.token);
     const firstname = useSelector((state) => state.user.userData.firstname);
 
-    
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+     /* Fonction pour gérer la déconnexion de l'utilisateur */
     const logoutHandler = () => {
         dispatch(logout());
         sessionStorage.clear();
@@ -28,7 +26,7 @@ function Header () {
                 <Link to="/">
                     <img src={Logo} alt="Bank Logo" />
                 </Link> 
-                {isConnected ? (
+                {isConnected ? ( /*Si l'utilisateur est connecté, affiche les options de profil et de déconnexion*/
                     <div className='connected'>
                         <Link to='/profile'>
                             <i className='fa-solid fa-2x fa-circle-user' />
@@ -40,7 +38,7 @@ function Header () {
                         </Link>
                     </div>
                 ) : (
-                    <div className='not-connected'>
+                    <div className='not-connected'> {/* Si l'utilisateur n'est pas connecté, affiche le lien pour se connecter */}
                         <Link to='/login' >
                             <i className="fa-solid fa-circle-user"></i>
                             <p>Sign In</p>

@@ -22,7 +22,7 @@ function Home () {
                 <Banner />
                 <section className="features">
                     <h2 className='sr-only'>Features</h2>
-                    {/* Retourne items du fichier json  */}
+                    {/* Parcours des données JSON et retourne un composant Item pour chaque élément */}
                     {FeaturesItemData.map((data) => (
                         /* Retourne composant item */
                         < Item 

@@ -1,11 +1,11 @@
 import { GET_USERPROFILE, EDIT_USERNAME, LOGOUT } from "../actions/type.actions"
 
-/* Initial user state */
+/* État initial du reducer utilisateur */
 const initialState = {
     status: 'VOID',
     userData: {}
 }
-
+/*Reducer pour gérer les actions liées aux données utilisateur*/
 export const userReducer = (state = initialState, action ) => {
     switch (action.type) {
         case GET_USERPROFILE:

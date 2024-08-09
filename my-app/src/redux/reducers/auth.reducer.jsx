@@ -1,13 +1,13 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/type.actions";
 
-/* Initial state of authentication */
+/* État initial pour le reducer d'authentification*/
 const initialState = {
     status: "VOID",
     isConnected: false,
     token: null,
     error: null,
 }
-
+/*Reducer pour gérer les actions liées à l'authentification*/
 export const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:

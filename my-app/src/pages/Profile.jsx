@@ -5,17 +5,18 @@ import User from '../components/User.jsx';
 import Account from '../components/Account.jsx';
 import AccountCardData from '../data/AccountCardData.json';
 
-/* User profile page */
+
 function UserProfile () {
     const token = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
 
-    /* Asynchronous function that retrieves user data and updates it with useEffect */
+    /* Hook useEffect pour déclencher la récupération des données utilisateur après le rendu du composant */
     useEffect(() => {
         if (token) {
             const userData = async () => {
                 try {
-                    const response = await fetch('http://localhost:5173/api/v1/user/profile', {
+                    /*Envoi d'une requête à l'API pour récupérer le profil utilisateur*/
+                    const response = await fetch('http://localhost:3001/api/v1/user/profile', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -24,10 +25,7 @@ function UserProfile () {
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        /* 
-                            Checking that the query response is indeed retrieved
-                            console.log(data) 
-                        */
+                        /*Structure les données de l'utilisateur récupérées depuis la réponse de l'API*/
                         const userData = {
                             createdAt: data.body.createdAt,
                             updatedAt: data.body.updatedAt,
@@ -37,10 +35,10 @@ function UserProfile () {
                             lastname: data.body.lastName,
                             username: data.body.userName
                         }
-                        /* Return user data in redux state */
+                      /* Envoie les données utilisateur au Redux store via l'action userProfile*/
                         dispatch(userProfile(userData));
                     } else {
-                        console.log("error while retrieving profile");
+                        console.log("Erreur lors de la récupération du profil");
                     }
                 } catch (error) {
                     console.error(error);
@@ -48,16 +46,15 @@ function UserProfile () {
             };
             userData();
         }
-    }, [dispatch, token]);
+    }, [dispatch, token]); /*useEffect se déclenche à chaque fois que `dispatch` ou `token` change*/
 
     return (
         <div className='profile-page'>
             <main className='bg-dark'>
-                {/* Return user componant */}
+              {/* Affiche les informations de l'utilisateur via le composant User */}
                 < User />
-                {/* Return items from json file with map */}
+               {/* Parcourt les données du fichier JSON pour chaque compte et affiche un composant Account pour chacun */}
                 {AccountCardData.map((data) => (
-                    /* Return account component */
                     <Account 
                         key={data.id}
                         title={data.title}
