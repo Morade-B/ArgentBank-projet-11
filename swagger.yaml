@@ -65,11 +65,9 @@ paths:
         - User Module
       summary: User Profile API
       description: API for fetching a user profile
-      #produces:
-       # - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
@@ -94,13 +92,134 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /transactions:
+    get:
+      tags:
+        - Accounts and Transactions Module
+      summary: Retrieve all transactions
+      description: API to retrieve all transactions
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: All transactions retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TransactionsResponse'
+        '401':
+          description: Unauthorized user
+        '500':
+          description: Internal Server Error
+  /transactions-monthly:
+    get:
+      tags:
+        - Accounts and Transactions Module
+      summary: Retrieve all transactions for the current month
+      description: API to retrieve all transactions for the current month
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: All monthly transactions retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TransactionsResponse'
+        '401':
+          description: Unauthorized user
+        '500':
+          description: Internal Server Error
+  /transactions/{id}:
+    get:
+      tags:
+        - Accounts and Transactions Module
+      summary: Retrieve a transaction by ID
+      description: API to retrieve a specific transaction by its ID
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          description: ID of the transaction
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/TransactionsResponse'
+        '401':
+          description: Unauthorized user
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    put:
+      tags:
+        - Accounts and Transactions Module
+      summary: Update transaction's category and note
+      description: API to update the category and note of a specific transaction
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          description: ID of the transaction
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update transaction's category and note
+          required: true
+          schema:
+            type: object
+            properties:
+              category:
+                $ref: '#/definitions/TransactionCategory'
+              note:
+                $ref: '#/definitions/TransactionNote'
+      responses:
+        '200':
+          description: Transaction updated successfully
+          schema:
+            $ref: '#/definitions/TransactionsResponse'
+        '401':
+          description: Unauthorized user
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Accounts and Transactions Module
+      summary: Delete a transaction
+      description: API to delete a specific transaction by its ID
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          description: ID of the transaction
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Transaction deleted successfully
+        '401':
+          description: Unauthorized user
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -156,3 +275,32 @@ definitions:
     properties:
       userName:
         type: string
+  TransactionsResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID de la transaction
+      amount:
+        type: number
+        format: float
+        description: Montant de la transaction
+      date:
+        type: string
+        format: date
+        description: Date de la transaction
+      category:
+        type: string
+        description: Catégorie de la transaction
+      note:
+        type: string
+        description: Note associée à la transaction
+      accountId:
+        type: string
+        description: ID du compte associé
+  TransactionCategory:
+    type: string
+    description: Catégorie de la transaction à mettre à jour
+  TransactionNote:
+    type: string
+    description: Note de la transaction à mettre à jour
