@@ -114,8 +114,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/TransactionsResponse'
-        '401':
-          description: Unauthorized user
+        '400':
+          description: Invalid Fields
         '500':
           description: Internal Server Error
   /transactions-monthly:
@@ -133,8 +133,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/TransactionsResponse'
-        '401':
-          description: Unauthorized user
+        '400':
+          description: Invalid Fields
         '500':
           description: Internal Server Error
   /transactions/{id}:
@@ -156,8 +156,8 @@ paths:
           description: Transaction retrieved successfully
           schema:
             $ref: '#/definitions/TransactionsResponse'
-        '401':
-          description: Unauthorized user
+        '400':
+          description: Invalid Fields
         '404':
           description: Transaction not found
         '500':
@@ -191,8 +191,8 @@ paths:
           description: Transaction updated successfully
           schema:
             $ref: '#/definitions/TransactionsResponse'
-        '401':
-          description: Unauthorized user
+        '400':
+          description: Invalid Fields
         '404':
           description: Transaction not found
         '500':
@@ -213,8 +213,8 @@ paths:
       responses:
         '200':
           description: Transaction deleted successfully
-        '401':
-          description: Unauthorized user
+        '400':
+          description: Invalid Fields
         '404':
           description: Transaction not found
         '500':

@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { loginFailed, loginSuccess } from '../redux/actions/auth.actions.jsx';
-import { isValidEmail, isValidPassword } from '../utils/regex.jsx';
+import React, { useState } from 'react'; /*pour gérer l'état local dans le composant.*/
+import { useDispatch } from 'react-redux'; /* permet d'envoyer des actions pour modifier l'état global.*/
+import { useNavigate } from 'react-router-dom'; /* permet de naviguer entre les pages.*/
+import { loginFailed, loginSuccess } from '../redux/actions/auth.actions.jsx'; /* pour gérer le succès ou l'échec de la connexion.*/
+import { isValidEmail, isValidPassword } from '../utils/regex.jsx'; /*utilise une expression régulière (regex) 
+pour vérifier si l'adresse e-mail et le mdp respecte le bon format.*/
 import './Form.css';
 
 function Form () {
     /* Permet de récupérer les données saisies par l'utilisateur dans le formulaire */
+
+    /* useState: Gère l'état local( stocker et de manipuler des données spécifiques à un composant.) 
+    pour l'email, le mot de passe, l'option "Remember Me" et les messages d'erreur.*/
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    /* Indique un message d'erreur si les données ne sont pas valides */
     const [errorMessage, setErrorMessage] = useState('');
-
+    /* Permet de rediriger l'utilisateur vers une autre page après la connexion.*/
     const navigate = useNavigate();
+    /* Permet d'envoyer des actions au store Redux pour mettre à jour l'état global.*/
     const dispatch = useDispatch();
 
 /* Fonction qui est appelée lors de la soumission du formulaire */
@@ -29,7 +33,7 @@ function Form () {
             return;
         }
         try {
-             /* Envoie une requête POST au serveur pour tenter de se connecter */
+             /* Envoie une requête POST au serveur pour tenter de se connecter avec les informations saisies par l'utilisateur. */
             const response = await fetch("http://localhost:3001/api/v1/user/login", {
                 method: "POST",
                 headers: {
@@ -39,7 +43,8 @@ function Form () {
             });
             if (response.ok) {
                 const data = await response.json();
-             
+            /*Le jeton (token) est extrait de la réponse, et l'action loginSuccess est dispatchée pour mettre à jour l'état global. 
+             Le jeton est également stocké dans sessionStorage et localStorage si l'utilisateur souhaite se souvenir de lui.*/
                 const token = data.body.token;
                 dispatch(loginSuccess(token));
                 sessionStorage.setItem("token", token);
@@ -48,6 +53,7 @@ function Form () {
                 }
                 navigate('/profile');
             } else {
+                /* Si la réponse échoue: Une action loginFailed est dispatchée avec un message d'erreur.*/
                 const error = "Incorrect email/password"
                 dispatch(loginFailed(error));
             }
@@ -57,6 +63,7 @@ function Form () {
     }
 
     return (
+         /*handleSubmit: Appelé lors de la soumission du formulaire pour traiter la connexion.*/
         <section className='sign-in-content'>
             <i className="fa-solid fa-circle-user"></i>
             <h2>Sign In</h2>
@@ -67,6 +74,8 @@ function Form () {
                         id='email' 
                         type='text'
                         value={email}
+                        /* Chaque fois que l'utilisateur tape quelque chose, 
+                        setEmail est appelé avec la valeur actuelle du champ, ce qui met à jour l'état.*/
                         onChange={(event) => setEmail(event.target.value)}
                     />
                 </div>
@@ -91,9 +100,10 @@ function Form () {
                 <button className="sign-in-button">
                     Sign In
                 </button>
-                {errorMessage && <p className='error-message'>{errorMessage}</p>}
+                {errorMessage && <p className='error-message'>{errorMessage}</p>}  
             </form>
         </section>
+        
     )
 }
 
